@@ -19,11 +19,16 @@ class Db {
 
   public function select($table, $data = []) {
     $where = "";
+    $this->data = [];
     foreach ($data as $param => $value)
       $where .= " and `$param` = '$value'";
-    $sql = 'select * from '.$table.' where true and '.$where;
+    $sql = 'select * from '.$table.' where true '.$where;
+    if ($this->debug) print $sql;
     $result = $this->db->query($sql);
-    return $result->fetch_assoc();
+    while ($row = $result->fetch_assoc()) {
+      array_push($this->data, $row);
+    }
+    return $this->data;
   }
 
   public function insert($table, $data = []) {
