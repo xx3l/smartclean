@@ -19,6 +19,16 @@ create table point
 
 alter table point comment 'Точка на карте';
 
+create index Index_point_lat on point
+(
+   lat
+);
+
+create index Index_point_lon on point
+(
+   lon
+);
+
 create table ref_transport
 (
    ref_transport_id     int not null auto_increment,
@@ -66,8 +76,9 @@ create table street
    street_id            int not null auto_increment,
    p1                   int not null,
    p2                   int not null,
-   width                float not null,
+   width                float not null default 3.5,
    len                  float not null,
+   priority             int not null default 1,
    active               int not null default 1,
    primary key (street_id)
 );
