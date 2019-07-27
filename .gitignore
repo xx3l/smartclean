@@ -1,2 +1,4 @@
 Logs/**
 phpinfo.php
+
+*.pdb
