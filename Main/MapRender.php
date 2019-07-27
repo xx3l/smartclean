@@ -1,7 +1,7 @@
 <?php
 class MapRender {
 
-  protected $config;
+  public $config;
 
   public function __construct($config) {
     $this->config = $config;
@@ -23,10 +23,10 @@ class MapRender {
     imagefilledrectangle($im, 0, 0, $this->x_res, $this->y_res, $c_transparent);
     $this->db->debug = false;
     $limits = $this->db->rawSql('select min(lat) minLat,max(lat) maxLat, min(lon) minLon, max(lon) maxLon from point');
-    $minLat = $limits[0]['minLat'];
-    $maxLat = $limits[0]['maxLat'];
-    $minLon = $limits[0]['minLon'];
-    $maxLon = $limits[0]['maxLon'];
+    $minLat = $this->config['render']['box']['lat1'] ?? $limits[0]['minLat'];
+    $maxLat = $this->config['render']['box']['lat2'] ?? $limits[0]['maxLat'];
+    $minLon = $this->config['render']['box']['lon1'] ?? $limits[0]['minLon'];
+    $maxLon = $this->config['render']['box']['lon2'] ?? $limits[0]['maxLon'];
 
     $points = $this->db->rawSql('select lat, lon, point_id from point');
     $x_scale = $this->x_res / ($maxLon - $minLon);
@@ -49,8 +49,6 @@ class MapRender {
       imageline($im, $x1, $y1, $x2, $y2, $c_lines);
     }
 
-
-    // print_r($limits);
     header('Content-type: image/png');
     imagepng($im);
     die();
