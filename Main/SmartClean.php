@@ -1,16 +1,32 @@
 <?php
 // это файл с основным классом
+require_once 'Db.php';
+require_once 'MapPoints.php';
+require_once 'MapStreets.php';
+require_once 'MapFallout.php';
 
 class SmartClean {
   public $config = [];
+  protected $db;
+  protected $modelId = 0;
+  protected $point, $street, $fallout;
 
-  public function __construct() {
+  public function __construct($param) {
     include 'config.php';
+
     $this->config = $config;
+
+    $this->config['model']['id'] = $paran['model']['id'] ?? 1;
+
     $this->db_session = mysqli_connect($this->config['db']['host'], $this->config['db']['user'], $this->config['db']['password']);
+    $this->db = new Db($this->config['db']);
+    $this->point = new MapPointClass($this->config);
+    $this->street = new MapStreetClass($this->config);
+    $this->fallout = new MapFalloutClass($this->config);
     $this->log('Class loaded');
+    $this->point->add(1,2);
   }
-  
+
   public function log($message) {
     if ($this->config['debug']) {
       $fp = fopen($this->config['log']['path'], 'a+');

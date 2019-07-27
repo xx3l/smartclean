@@ -1,4 +1,4 @@
 <?php
 require_once './Main/SmartClean.php';
-$smartClean = new SmartClean();
+$smartClean = new SmartClean(['model' => ['id' => 1]]);
 ?>
