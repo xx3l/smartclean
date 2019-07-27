@@ -7,9 +7,11 @@ create table map
 
 alter table map comment 'Карта';
 
+INSERT INTO `map`(`map_name`) VALUES ('Тестовая модель');
+
 create table point
 (
-   point_id             int not null auto_increment,
+   point_id             bigint not null,
    map_id               int not null,
    lat                  double not null,
    lon                  double not null,
@@ -73,9 +75,9 @@ alter table snow_dump comment 'Пункт сброса снега (заполн�
 
 create table street
 (
-   street_id            int not null auto_increment,
-   p1                   int not null,
-   p2                   int not null,
+   street_id            bigint not null,
+   p1                   bigint not null,
+   p2                   bigint not null,
    width                float not null default 3.5,
    len                  float not null,
    priority             int not null default 1,
