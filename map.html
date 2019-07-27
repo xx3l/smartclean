@@ -1,0 +1,34 @@
+<html>
+<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+<script>
+function GetMap() {
+    map = new OpenLayers.Map("OSMap");//инициализация карты
+    var mapnik = new OpenLayers.Layer.OSM();//создание слоя карты
+    map.addLayer(mapnik);//добавление слоя
+
+    map.setCenter(new OpenLayers.LonLat(104.2707, 52.289) //(широта, долгота)
+          .transform(
+            new OpenLayers.Projection("EPSG:4326"), // переобразование в WGS 1984
+            new OpenLayers.Projection("EPSG:900913") // переобразование проекции
+          ), 16 // масштаб
+        );
+	//alert(JSON.stringify(map.calculateBounds()));
+    var layerMarkers = new OpenLayers.Layer.Markers("Markers");//создаем новый слой маркеров
+    map.addLayer(layerMarkers);//добавляем этот слой к карте
+    map.events.register('click', map, function (e) {    
+        var size = new OpenLayers.Size(800, 600);//размер картинки для маркера
+        var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h); //смещение картинки для маркера
+        var icon = new OpenLayers.Icon('http://h.webmakerz.ru/image.php', size, offset);//картинка для маркера
+		alert(JSON.stringify(e.xy));
+        layerMarkers.addMarker(//добавляем маркер к слою маркеров
+            new OpenLayers.Marker(map.getLonLatFromViewPortPx(e.xy), //координаты вставки маркера
+            icon));//иконка маркера
+    }); //добавление событие клика по карте
+}
+ </script>
+ <body onload="GetMap();">
+    <h2>OpenStreetMap</h2>
+    <div id="OSMap" style="position:absolute; width:1400px; height:500px;"></div>
+ </body>
+ 
+</html>
