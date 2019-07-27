@@ -17,6 +17,15 @@ class Db {
     return $this->data;
   }
 
+  public function select($table, $data = []) {
+    $where = "";
+    foreach ($data as $param => $value)
+      $where .= " and `$param` = '$value'";
+    $sql = 'select * from '.$table.' where true and '.$where;
+    $result = $this->db->query($sql);
+    return $result->fetch_assoc();
+  }
+
   public function insert($table, $data = []) {
     $sql = "insert into ".$table." (".implode(",", array_keys($data)).") values('".implode("','", $data)."')";
     if ($this->debug) print $sql;

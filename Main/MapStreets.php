@@ -27,6 +27,14 @@ class MapStreetClass {
     return $this->db->get('point', $id);
   }
 
+  function selectAll() {
+    return $this->db->select(
+      'street', [
+        'active' => 1,
+      ]
+    );
+  }
+
   function delete($id) {
     return $this->db->delete('street', $id);
   }
