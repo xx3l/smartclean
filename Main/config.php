@@ -8,4 +8,6 @@ $config['db']['password'] = 'hack';
 $config['db']['name'] = 'smartclean';
 
 $config['log']['path'] = 'Logs/log.log';
+
+$config['render']['resolution'] = [800, 600];
 ?>

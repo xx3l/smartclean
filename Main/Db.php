@@ -8,6 +8,7 @@ class Db {
     $this->db = new mysqli($config['host'], $config['user'], $config['password'],  $config['name']);
   }
   public function rawSql($sql) {
+    $this->data = [];
     if ($this->debug) print $sql;
     $result = $this->db->query($sql);
     while ($row = $result->fetch_assoc()) {
