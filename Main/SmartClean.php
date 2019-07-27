@@ -9,7 +9,7 @@ class SmartClean {
   public $config = [];
   protected $db;
   protected $modelId = 0;
-  protected $point, $street, $fallout;
+  public $point, $street, $fallout;
 
   public function __construct($param) {
     include 'config.php';
@@ -24,7 +24,6 @@ class SmartClean {
     $this->street = new MapStreetClass($this->config);
     $this->fallout = new MapFalloutClass($this->config);
     $this->log('Class loaded');
-    $this->point->add(1,2);
   }
 
   public function log($message) {

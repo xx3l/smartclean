@@ -4,6 +4,7 @@ class Db {
   public $data = [];
   public $debug = true;
   public function __construct($config) {
+    $this->debug = $config['debug'] ?? $this->debug;
     $this->db = new mysqli($config['host'], $config['user'], $config['password'],  $config['name']);
   }
   public function rawSql($sql) {
