@@ -75,9 +75,11 @@ alter table snow_dump comment 'Пункт сброса снега (заполн�
 
 create table street
 (
-   street_id            bigint not null,
+   street_id            bigint not null auto_increment,
    p1                   bigint not null,
    p2                   bigint not null,
+   path_id              bigint,
+   one_way              int not null default 1,
    width                float not null default 3.5,
    len                  float not null,
    priority             int not null default 1,
