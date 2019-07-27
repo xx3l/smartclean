@@ -18,13 +18,22 @@ class Db {
 
   public function insert($table, $data = []) {
     $sql = "insert into ".$table." (".implode(",", array_keys($data)).") values('".implode("','", $data)."')";
+    if ($this->debug) print $sql;
     $this->db->query($sql);
-    print $sql;
     return $this->db->insert_id;
   }
 
-  public function delete($table, $where) {
-
+  public function delete($table, $id) {
+    $sql = 'delete from '.$table.' where '.$table.'_id = '.$id;
+    if ($this->debug) print $sql;
+    return $this->db->query($sql);
   }
+
+  public function get($table, $id) {
+    $sql = 'select * from '.$table.' where '.$table.'_id = '.$id;
+    $result = $this->db->query($sql);
+    return $result->fetch_assoc();
+  }
+
 }
 ?>

@@ -8,17 +8,27 @@ class MapStreetClass {
     $this->db = new Db($config['db']);
   }
 
-  function add($p1, $p2, $width = 3.5, $len = 0, $priority = 1, $active = 1) {
+  function add($p1, $p2, $one_way = 0, $path_id = 0, $width = 3.5, $len = 0, $priority = 1, $active = 1) {
     return $this->db->insert(
       'street', [
         'p1' => $p1,
         'p2' => $p2,
+        'path_id' => $path_id,
+        'one_way' => $one_way,
         'width' => $width,
         'len' => $len,
         'priority' => $priority,
         'active' => $active,
       ]
     );
+  }
+
+  function get($id) {
+    return $this->db->get('point', $id);
+  }
+
+  function delete($id) {
+    return $this->db->delete('street', $id);
   }
 
 }

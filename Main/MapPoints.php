@@ -18,5 +18,14 @@ class MapPointClass {
       ]
     );
   }
+
+  function get($id) {
+    return $this->db->get('point', $id);
+  }
+
+  function delete($id) {
+    return $this->db->delete('point', $id);
+  }
+
 }
 ?>
