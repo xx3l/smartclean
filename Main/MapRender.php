@@ -23,10 +23,10 @@ class MapRender {
     imagefilledrectangle($im, 0, 0, $this->x_res, $this->y_res, $c_transparent);
     $this->db->debug = false;
     $limits = $this->db->rawSql('select min(lat) minLat,max(lat) maxLat, min(lon) minLon, max(lon) maxLon from point');
-    $minLat = $this->config['render']['box']['lat1'] ?? $limits[0]['minLat'];
-    $maxLat = $this->config['render']['box']['lat2'] ?? $limits[0]['maxLat'];
-    $minLon = $this->config['render']['box']['lon1'] ?? $limits[0]['minLon'];
-    $maxLon = $this->config['render']['box']['lon2'] ?? $limits[0]['maxLon'];
+    $minLat = ($this->config['render']['box']['lat1'] == 0) ? $limits[0]['minLat'] : $this->config['render']['box']['lat1'];
+    $maxLat = ($this->config['render']['box']['lat2'] == 0) ? $limits[0]['maxLat'] : $this->config['render']['box']['lat2'];
+    $minLon = ($this->config['render']['box']['lon1'] == 0) ? $limits[0]['minLon'] : $this->config['render']['box']['lon1'];
+    $maxLon = ($this->config['render']['box']['lon2'] == 0) ? $limits[0]['maxLon'] : $this->config['render']['box']['lon2'];
 
     $points = $this->db->rawSql('select lat, lon, point_id from point');
     $x_scale = $this->x_res / ($maxLon - $minLon);
