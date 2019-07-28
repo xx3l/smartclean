@@ -1,6 +1,6 @@
 <?php
 class Helper {
-  function LatLonLen($lat1,$lon1,$lat2,$lon2) {
+  public function LatLonLen($lat1,$lon1,$lat2,$lon2) {
     $r = 6371; // Radius of the earth in km
     $dLat = deg2rad($lat2-$lat1);  // deg2rad below
     $dLon = deg2rad($lon2-$lon1);

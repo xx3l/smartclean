@@ -30,7 +30,7 @@ class SmartClean {
     $this->transport = new MapTransportClass($this->config);
     $this->fallout = new MapFalloutClass($this->config);
     $this->render = new MapRender($this->config);
-    $this->hepler = new Helper($this->config);
+    $this->helper = new Helper($this->config);
     $this->log('Class loaded');
   }
 

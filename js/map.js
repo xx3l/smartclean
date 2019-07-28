@@ -1,10 +1,16 @@
+function $_GET(key) {
+    var p = window.location.search;
+    p = p.match(new RegExp(key + '=([^&=]+)'));
+    return p ? p[1] : false;
+}
+
 
 function GetMap() {
     map = new OpenLayers.Map("OSMap");
     var mapnik = new OpenLayers.Layer.OSM();
     map.addLayer(mapnik);
-
-    map.setCenter(new OpenLayers.LonLat(104.2707, 52.289).transform(
+//104.2707, 52.289
+    map.setCenter(new OpenLayers.LonLat(102, 50).transform(
             new OpenLayers.Projection("EPSG:4326"), 
             new OpenLayers.Projection("EPSG:900913") 
           ), 16 
@@ -70,5 +76,5 @@ function GetMap() {
             new OpenLayers.Marker(position3, Ways)
 		);
     }); 
-
 }
+

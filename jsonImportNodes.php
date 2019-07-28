@@ -4,7 +4,7 @@ $smartClean = new SmartClean(['model' => ['id' => 1]]);
 
 
 
-$objArray = json_decode(file_get_contents("newJSON.json"),true);
+$objArray = json_decode(file_get_contents("JSON.json"),true);
 //print_r($objArray);
 for($i=0;$i<Count($objArray["elements"]);$i++) {
 	if($objArray['elements'][$i]["type"] == "node") {
