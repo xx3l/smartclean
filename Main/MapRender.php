@@ -45,7 +45,7 @@ class MapRender {
       $y2 = $this->y_res - $y_scale * ($pnt[$street['p2']][0] - $minLat);
       imageline($im, $x1, $y1, $x2, $y2, $c_lines);
     }
-    if ($this->config['render']['showPoints'] ?? false) == true) {
+    if (($this->config['render']['showPoints'] ?? false) == true) {
       foreach ($points as $point) {
         $x = $x_scale * ($point['lon'] - $minLon);
         $y = $this->y_res - $y_scale * ($point['lat'] - $minLat);
