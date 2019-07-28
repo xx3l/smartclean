@@ -39,5 +39,8 @@ class MapStreetClass {
     return $this->db->delete('street', $id);
   }
 
+  function findByGPS($lat, $lon) {
+
+  }
 }
 ?>

@@ -7,6 +7,7 @@ require_once 'MapStreets.php';
 require_once 'MapTransports.php';
 require_once 'MapFallout.php';
 require_once 'MapRender.php';
+require_once 'Hepler.php';
 
 class SmartClean {
   public $config = [];
@@ -29,6 +30,7 @@ class SmartClean {
     $this->transport = new MapTransportClass($this->config);
     $this->fallout = new MapFalloutClass($this->config);
     $this->render = new MapRender($this->config);
+    $this->hepler = new Helper($this->config);
     $this->log('Class loaded');
   }
 
