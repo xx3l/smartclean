@@ -44,6 +44,12 @@ class Db {
     return $this->db->query($sql);
   }
 
+  public function deleteAll($table) {
+    $sql = 'delete from '.$table;
+    if ($this->debug) print $sql;
+    return $this->db->query($sql);
+  }
+
   public function get($table, $id) {
     $sql = 'select * from '.$table.' where '.$table.'_id = '.$id;
     $result = $this->db->query($sql);

@@ -2,6 +2,8 @@
 require_once './Main/SmartClean.php';
 $smartClean = new SmartClean(['model' => ['id' => 1]]);
 
+$smartClean->routePoint->deleteAllPreparing();
+
 // 1. Найти все улицы
 $streets = $smartClean->street->selectAll();
 //print_r($streets);
@@ -24,7 +26,7 @@ for ($i=0; $i < sizeof($transports); $i++) {
 $min_len = 0;				// длина минимального маршрута
 $i_min_len = 0;				// номер минимального маршрута
 $count = 0;
-while ($count < 1000 && $min_len < 5) {
+while ($count < 10000 && $min_len < 5) {
 
 	// 4. Находим улицу, которая ещё не пройдена
 	// и которая идёт следом за последней в этом массиве
@@ -34,13 +36,15 @@ while ($count < 1000 && $min_len < 5) {
 			// нашли - добавляем
 			$is_p1 = ($streets[$i]["p1"] == $last_node[$i_min_len]);
 			$visited_streets_ids[] = $streets[$i]["street_id"];
-			$last_node[$i_min_len] = $streets[$i]["street_id"];
+			$last_node[$i_min_len] = $streets[$i][ $is_p1 ? "p2" : "p1" ];
 			$sum_len[$i_min_len] += $streets[$i]["len"];
 			$min_len = min($sum_len);
+
 			//if ($is_p1)       
-			print_r($streets[$i]);
-				$p = $smartClean->point->get($streets[$i]["p1"]);
-				$smartClean->routePoint->prepare($transports[$i]["transport_id"], $streets[$i]["street_id"], $p['lat'], $p['lon']);
+
+			$p = $smartClean->point->get($streets[$i]["p1"]);
+			$smartClean->routePoint->prepare($transports[$i]["transport_id"], $streets[$i]["street_id"], $p['lat'], $p['lon']);
+
 			$flag = 1;
 			break;
 		}
@@ -50,10 +54,15 @@ while ($count < 1000 && $min_len < 5) {
 		for ($i=0; $i < sizeof($streets); $i++)
 			if (($streets[$i]["p1"] == $last_node[$i_min_len] || !$streets[$i]["one_way"] && $streets[$i]["p2"] == $last_node[$i_min_len])) {
 				// нашли - добавляем
+				$is_p1 = ($streets[$i]["p1"] == $last_node[$i_min_len]);
 				$visited_streets_ids[] = $streets[$i]["street_id"];
-				$last_node[$i_min_len] = $streets[$i]["street_id"];
+				$last_node[$i_min_len] = $streets[$i][ $is_p1 ? "p2" : "p1" ];
 				$sum_len[$i_min_len] += $streets[$i]["len"];
 				$min_len = min($sum_len);
+
+				$p = $smartClean->point->get($streets[$i]["p1"]);
+				$smartClean->routePoint->prepare($transports[$i]["transport_id"], $streets[$i]["street_id"], $p['lat'], $p['lon']);
+
 				$flag = 1;
 				break;
 			}
@@ -61,11 +70,11 @@ while ($count < 1000 && $min_len < 5) {
 
 	// 6. если и такую не нашли, то это тупик и идём обратно
 	if (!$flag) {
-/*		$last_node[] = $streets[$i]["street_id"];
+		$last_node[] = $streets[$i]["p2"];
 		$sum_len += $streets[$i]["len"];
 		$min_len = min($sum_len);
 		$i_min_len = size($visited_streets_id[]) - 1;
-		$flag = 1;*/
+		$flag = 1;
 	}
 
 	// 7. обновляем индекс минимального по длине маршрута
