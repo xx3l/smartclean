@@ -1,16 +1,22 @@
-function $_GET(key) {
-    var p = window.location.search;
-    p = p.match(new RegExp(key + '=([^&=]+)'));
-    return p ? p[1] : false;
-}
-
+var get =  decodeURI(window.location.search)
+		  .replace('?', '')
+		  .split('&')
+		  .map(param => param.split('='))
+		  .reduce((values, [ key, value ]) => {
+			values[ key ] = value
+			return values
+		  }, {})
 
 function GetMap() {
     map = new OpenLayers.Map("OSMap");
     var mapnik = new OpenLayers.Layer.OSM();
     map.addLayer(mapnik);
 //104.2707, 52.289
-    map.setCenter(new OpenLayers.LonLat(102, 50).transform(
+	var lat = get['lat'];
+	var lon = get['lon'];
+
+	
+    map.setCenter(new OpenLayers.LonLat(lon, lat).transform(
             new OpenLayers.Projection("EPSG:4326"), 
             new OpenLayers.Projection("EPSG:900913") 
           ), 16 
@@ -40,7 +46,7 @@ function GetMap() {
 
 	position1 = position.transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
 	position2 = position2.transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
-	var path = 'http://h.webmakerz.ru/image.php?x=1400&y=500&lon1='+position1.lon+'&lat1='+position1.lat+'&lon2='+position2.lon+'&lat2='+position2.lat+'';
+	var path = 'image.php?x=1400&y=500&lon1='+position1.lon+'&lat1='+position1.lat+'&lon2='+position2.lon+'&lat2='+position2.lat+'';
 	var Ways = new OpenLayers.Icon(path, size, offset);
 
     layerMarkers.addMarker(
@@ -69,9 +75,9 @@ function GetMap() {
 
 		position1 = position.transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
 		position2 = position2.transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
-		var path = 'http://h.webmakerz.ru/image.php?x=1400&y=500&lon1='+position1.lon+'&lat1='+position1.lat+'&lon2='+position2.lon+'&lat2='+position2.lat+'';
+		var path = 'image.php?x=1400&y=500&lon1='+position1.lon+'&lat1='+position1.lat+'&lon2='+position2.lon+'&lat2='+position2.lat+'';
 	    var Ways = new OpenLayers.Icon(path, size, offset);
-
+		console.log(path);
         layerMarkers.addMarker(
             new OpenLayers.Marker(position3, Ways)
 		);
