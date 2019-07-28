@@ -53,6 +53,16 @@ class MapRender {
         imagefilledrectangle($im, $x-5, $y-5, $x+5, $y+5, $c_points);
       }
     }
+    if (@$_GET['tr'] != '') {
+      $imt = imagecreatefrompng('pix/tr.png');
+      $units = $this->db->rawSql('select * from transport t left join ref_transport r on r.ref_transport_id=t.ref_transport_id');
+      foreach ($units as $unit) {
+        $x = $x_scale * ($unit['current_lon'] - $minLon);
+        $y = $this->y_res - $y_scale * ($unit['current_lat'] - $minLat);
+        imagecopyresampled($im, $imt, $x, $y, 0, 0, 15, 10, 132, 78);
+      }
+
+    }
     if ($drawImage == 1) {
       header('Content-type: image/png');
       imagepng($im);
