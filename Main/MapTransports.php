@@ -23,18 +23,23 @@ SELECT transport_id, current_lat, current_lon, point_id, map_id, lat, lon
 FROM `transport` t, `point` p
 WHERE t.active = 1
 ORDER BY
-	atan2(sqrt(
-    	pow(sin(p.lon-t.current_lon)*3.1415/180, 2) 
-    	+cos(t.current_lat*3.1415/180) * sin(t.current_lat*3.1415/180)
-    	+pow(sin(p.lon-t.current_lon)*3.1415/180, 2) 
+  atan2(sqrt(
+      pow(sin(p.lon-t.current_lon)*3.1415/180, 2)
+      +cos(t.current_lat*3.1415/180) * sin(t.current_lat*3.1415/180)
+      +pow(sin(p.lon-t.current_lon)*3.1415/180, 2)
     ), sqrt(1-
-    	pow(sin(p.lon-t.current_lon)*3.1415/180, 2) 
-    	+cos(t.current_lat*3.1415/180) * sin(t.current_lat*3.1415/180)
-    	+pow(sin(p.lon-t.current_lon)*3.1415/180, 2) 
+      pow(sin(p.lon-t.current_lon)*3.1415/180, 2)
+      +cos(t.current_lat*3.1415/180) * sin(t.current_lat*3.1415/180)
+      +pow(sin(p.lon-t.current_lon)*3.1415/180, 2)
     ))
 SQL;
     return $this->db->rawSql($sql);
   }
-  
+
+  function selectAll() {
+    $sql = "select * from transport t left join ref_transport r on r.ref_transport_id=t.ref_transport_id";
+    return $this->db->rawSql($sql);
+  }
+
 }
 ?>
