@@ -7,11 +7,11 @@ class MapPointClass {
     $this->config = $config;
     $this->db = new Db($config['db']);
   }
-  function add($id, $lat, $lon, $height = 0) {
+  function add($id, $lat, $lon, $map_id, $height = 0) {
     return $this->db->insert(
       'point', [
         'point_id' => $id,
-        'map_id' => $this->config['model']['id'],
+        'map_id' => $map_id,
         'lat' => $lat,
         'lon' => $lon,
         'height' => $height,
