@@ -23,7 +23,7 @@ class MapRender {
 
     imagefilledrectangle($im, 0, 0, $this->x_res, $this->y_res, $c_transparent);
     $this->db->debug = false;
-    $limits = $this->db->rawSql('select min(lat) minLat,max(lat) maxLat, min(lon) minLon, max(lon) maxLon from point where map_id='.$config['model']['id']);
+    $limits = $this->db->rawSql('select min(lat) minLat,max(lat) maxLat, min(lon) minLon, max(lon) maxLon from point where map_id='.$this->config['model']['id']);
     $minLat = ($this->config['render']['box']['lat1'] == 0) ? $limits[0]['minLat'] : $this->config['render']['box']['lat1'];
     $maxLat = ($this->config['render']['box']['lat2'] == 0) ? $limits[0]['maxLat'] : $this->config['render']['box']['lat2'];
     $minLon = ($this->config['render']['box']['lon1'] == 0) ? $limits[0]['minLon'] : $this->config['render']['box']['lon1'];
