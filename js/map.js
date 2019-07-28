@@ -55,7 +55,7 @@ function GetMap() {
 	var path = 'image.php?x=1400&y=500&lon1='+position1.lon+'&lat1='+position1.lat+'&lon2='+position2.lon+'&lat2='+position2.lat+'&map_id='+map_id+'&tr=1';
 	
 	var Ways = new OpenLayers.Icon(path, size, offset);
-
+ 
     layerMarkers.addMarker(
         new OpenLayers.Marker(position3, Ways)
 	);
