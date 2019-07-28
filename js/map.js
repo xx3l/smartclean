@@ -14,7 +14,8 @@ function GetMap() {
 //104.2707, 52.289
 	var lat = get['lat'];
 	var lon = get['lon'];
-
+	var map_id = get['map_id'];
+	//alert(map_id);
 	
     map.setCenter(new OpenLayers.LonLat(lon, lat).transform(
             new OpenLayers.Projection("EPSG:4326"), 
@@ -46,7 +47,8 @@ function GetMap() {
 
 	position1 = position.transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
 	position2 = position2.transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
-	var path = 'image.php?x=1400&y=500&lon1='+position1.lon+'&lat1='+position1.lat+'&lon2='+position2.lon+'&lat2='+position2.lat+'';
+	var path = 'image.php?x=1400&y=500&lon1='+position1.lon+'&lat1='+position1.lat+'&lon2='+position2.lon+'&lat2='+position2.lat+'&map_id='+map_id;
+	console.log(path);
 	var Ways = new OpenLayers.Icon(path, size, offset);
 
     layerMarkers.addMarker(
@@ -75,7 +77,7 @@ function GetMap() {
 
 		position1 = position.transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
 		position2 = position2.transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
-		var path = 'image.php?x=1400&y=500&lon1='+position1.lon+'&lat1='+position1.lat+'&lon2='+position2.lon+'&lat2='+position2.lat+'';
+		var path = 'image.php?x=1400&y=500&lon1='+position1.lon+'&lat1='+position1.lat+'&lon2='+position2.lon+'&lat2='+position2.lat+'&map_id='+map_id;
 	    var Ways = new OpenLayers.Icon(path, size, offset);
 		console.log(path);
         layerMarkers.addMarker(
