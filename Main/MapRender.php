@@ -29,7 +29,7 @@ class MapRender {
     $minLon = ($this->config['render']['box']['lon1'] == 0) ? $limits[0]['minLon'] : $this->config['render']['box']['lon1'];
     $maxLon = ($this->config['render']['box']['lon2'] == 0) ? $limits[0]['maxLon'] : $this->config['render']['box']['lon2'];
 
-    $points = $this->db->rawSql('select lat, lon, point_id from point');
+    $points = $this->db->rawSql('select lat, lon, point_id from point where map_id='.$this->config['model']['id']);
     $x_scale = $this->x_res / ($maxLon - $minLon);
     $y_scale = $this->y_res / ($maxLat - $minLat);
     // print_r($points);
@@ -37,7 +37,7 @@ class MapRender {
     foreach ($points as $point) {
       $pnt[$point['point_id']] = [$point['lat'], $point['lon']];
     }
-    $streets = $this->db->rawSql('select p1, p2 from street');
+    $streets = $this->db->rawSql('select p1, p2 from street where map_id='.$this->config['model']['id']);
     foreach ($streets as $street) {
       $x1 = $x_scale * ($pnt[$street['p1']][1] - $minLon);
       $y1 = $this->y_res - $y_scale * ($pnt[$street['p1']][0] - $minLat);
