@@ -12,12 +12,17 @@ function GetMap() {
     var mapnik = new OpenLayers.Layer.OSM();
     map.addLayer(mapnik);
 //104.2707, 52.289
-	var lat = get['lat'];
-	var lon = get['lon'];
+	var lat;
+	if(!get['lat']) lat = 104.2707;
+
+	var lon;
+	if(!get['lon']) lon = 52.289;
+
 	var map_id = get['map_id'];
+	if(!map_id) map_id = 1;
 	//alert(map_id);
 	
-    map.setCenter(new OpenLayers.LonLat(lon, lat).transform(
+    map.setCenter(new OpenLayers.LonLat(lat,lon).transform(
             new OpenLayers.Projection("EPSG:4326"), 
             new OpenLayers.Projection("EPSG:900913") 
           ), 16 
