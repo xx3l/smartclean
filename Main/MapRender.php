@@ -60,7 +60,7 @@ class MapRender {
         $x = $x_scale * ($unit['current_lon'] - $minLon);
         $y = $this->y_res - $y_scale * ($unit['current_lat'] - $minLat);
         // imagecopyresampled($im, $imt, $x, $y, 0, 0, 25, 20, 132, 78);
-        imagecopyresampled($im, $imt, $x, $y, 0, 0, 25, 20, 275, 184);
+        imagecopyresampled($im, $imt, $x, $y, 0, 0, 35, 25, 275, 184);
       }
 
     }
