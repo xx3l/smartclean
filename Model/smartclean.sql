@@ -1,7 +1,8 @@
 create table map
 (
    map_id               int not null auto_increment  comment '',
-   map_name             varchar(100) not null  comment 'Наименование карты'
+   map_name             varchar(100) not null  comment 'Наименование карты',
+   primary key (map_id)
 );
 
 alter table map comment 'Карта';
@@ -14,7 +15,8 @@ create table point
    map_id               int not null  comment '',
    lat                  double not null  comment 'ширина',
    lon                  double not null  comment 'долгота',
-   height               double  comment 'высота над уровнем моря'
+   height               double  comment 'высота над уровнем моря',
+   primary key (point_id)
 );
 
 alter table point comment 'Точка на карте';
@@ -36,7 +38,8 @@ create table ref_transport
    width                float default 2  comment 'ширина уборки в метрах',
    speed                float default 10  comment 'скорость км/ч',
    max_loading          float  comment 'максимальная нагрузка в тоннах',
-   active               int4 not null default 1  comment ''
+   active               int4 not null default 1  comment '',
+   primary key (ref_transport_id)
 );
 
 alter table ref_transport comment 'Справочник: Снегоуборочная техника';
@@ -47,25 +50,35 @@ create table route_point
 (
    route_point_id       int not null auto_increment  comment '',
    transport_id         int not null  comment '',
+   street_id            bigint not null  comment '',
    lat                  double not null  comment 'ширина',
    lon                  double not null  comment 'долгота',
-   num                  int not null  comment 'порядковый номер (для сортировки)',
-   planned_time         timestamp  comment 'планируемое время посещения точки машиной'
+   planned_time         timestamp  comment 'планируемое время посещения точки машиной',
+   primary key (route_point_id)
 );
 
-alter table route_point comment 'Таблица маршрута движения для каждого транспорта (данные мен';
+alter table route_point comment 'Таблица маршрута движения для каждого транспорта для отображ';
 
-create index Index_route_num on route_point
+create table route_point_preparing
 (
-   num
+   route_point_preparing_id int not null auto_increment  comment '',
+   transport_id         int not null  comment '',
+   street_id            bigint not null  comment '',
+   lat                  double not null  comment 'ширина',
+   lon                  double not null  comment 'долгота',
+   planned_time         timestamp  comment 'планируемое время посещения точки машиной',
+   primary key (route_point_preparing_id)
 );
+
+alter table route_point_preparing comment 'Таблица маршрута движения для каждого транспорта (подготовка';
 
 create table snow_dump
 (
    snow_dump_id         int not null auto_increment  comment '',
    snow_dump_name       varchar(100)  comment 'Название пункта',
    snow_dump_lat        double  comment 'Координата пункта сброса снега (широта)',
-   snow_dump_lon        double  comment 'Координата пункта сброса снега долгота)'
+   snow_dump_lon        double  comment 'Координата пункта сброса снега долгота)',
+   primary key (snow_dump_id)
 );
 
 alter table snow_dump comment 'Пункт сброса снега (заполняется оператором)';
@@ -80,7 +93,9 @@ create table street
    width                float not null default 3.5  comment 'Ширина улицы в метрах',
    len                  float not null  comment 'Длина улицы в метрах',
    priority             int not null default 1  comment 'Приоритетная улица (выставляется оператором)',
-   active               int not null default 1  comment '1 - можно ездить, 0 - нельзя ездить, ремонт'
+   active               int not null default 1  comment '1 - можно ездить, 0 - нельзя ездить, ремонт',
+   last_time            timestamp  comment 'время последнего проезда снегоочистительной техники',
+   primary key (street_id)
 );
 
 alter table street comment 'Улица';
@@ -92,7 +107,8 @@ create table transport
    gibdd_number         varchar(30) not null  comment 'Номер машины',
    active               int4 not null default 1  comment '',
    current_lat          double  comment 'Текущее местоположение машины (широта).',
-   current_lon          double  comment 'Текущее местоположение машины (долгота)'
+   current_lon          double  comment 'Текущее местоположение машины (долгота)',
+   primary key (transport_id)
 );
 
 alter table transport comment 'Снегоуборочная техника (одна единица)';
@@ -102,6 +118,15 @@ alter table point add constraint FK_POINT_REFERENCE_MAP foreign key (map_id)
 
 alter table route_point add constraint FK_ROUTE_PO_REFERENCE_TRANSPOR foreign key (transport_id)
       references transport (transport_id) on delete restrict on update restrict;
+
+alter table route_point add constraint FK_ROUTE_PO_REFERENCE_STREET foreign key (street_id)
+      references street (street_id) on delete restrict on update restrict;
+
+alter table route_point_preparing add constraint FK_ROUTE_PO_REFERENCE_TRANSPOR foreign key (transport_id)
+      references transport (transport_id) on delete restrict on update restrict;
+
+alter table route_point_preparing add constraint FK_ROUTE_PO_REFERENCE_STREET foreign key (street_id)
+      references street (street_id) on delete restrict on update restrict;
 
 alter table street add constraint FK_STREET_REF1_POINT foreign key (p1)
       references point (point_id) on delete restrict on update restrict;
