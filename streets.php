@@ -11,53 +11,49 @@ $visited_streets_ids = [];// $smartClean->street->selectVisitedStreets(60); // �
 
 // 2. Определить технику и вершины, ближайшие к технике
 $transports = $smartClean->transport->selectAllWithNearestPoint();
-print_r($transports);
+//print_r($transports);
 
 $sum_len = [];				// длины маршрутов в км.
 $last_node = [];			// id последней точки в маршруте
-for ($i=0; $i < size($transports); $i++)
+for ($i=0; $i < sizeof($transports); $i++) {
+	$sum_len[$i] = 0;
 	$last_node[$i] = $transports[$i]["point_id"];
+}
 
 // 3. увеличивать маршруты, пока для каждой машины не будет вычислено минимум 5 км. расстояние
 $min_len = 0;				// длина минимального маршрута
 $i_min_len = 0;				// номер минимального маршрута
-
-while ($min_len < 5) {
+$count = 0;
+while ($count < 1000 && $min_len < 5) {
 
 	// 4. Находим улицу, которая ещё не пройдена
 	// и которая идёт следом за последней в этом массиве
 	$flag = 0;
-	for ($i=0; $i < size($streets); $i++)
-		if (!in_array($streets["street_id"], $visited_streets) && ($streets["p1"] == $last_node[$i_min_len] || !$streets["one_way"] && $streets["p2"] == $last_node[$i_min_len])) {
+	for ($i=0; $i < sizeof($streets); $i++)
+		if (!in_array($streets[$i]["street_id"], $visited_streets_ids) && ($streets[$i]["p1"] == $last_node[$i_min_len] || !$streets[$i]["one_way"] && $streets[$i]["p2"] == $last_node[$i_min_len])) {
 			// нашли - добавляем
-			$is_p1 = ($streets["p1"] == $last_node[$i_min_len]);
-			$visited_streets_id[] = $streets["street_id"];
-			$last_node[] = $streets["street_id"];
-			$sum_len += $streets["len"];
+			$is_p1 = ($streets[$i]["p1"] == $last_node[$i_min_len]);
+			$visited_streets_ids[] = $streets[$i]["street_id"];
+			$last_node[$i_min_len] = $streets[$i]["street_id"];
+			$sum_len[$i_min_len] += $streets[$i]["len"];
 			$min_len = min($sum_len);
-			$i_min_len = size($visited_streets_id[]) - 1;
-			echo "11111";
-			print_r($transport[$i]["transport_id"]);
-			print_r($streets["street_id"]);
-			//if ($is_p1)
-			//	$smartClean->routePoint->prepare($transport[$i]["transport_id"], $streets["street_id"], $streets["lat"], $lon) {
+			//if ($is_p1)       
+			print_r($streets[$i]);
+				$p = $smartClean->point->get($streets[$i]["p1"]);
+				$smartClean->routePoint->prepare($transports[$i]["transport_id"], $streets[$i]["street_id"], $p['lat'], $p['lon']);
 			$flag = 1;
 			break;
 		}
 
 	// 5. если не добавилась ни одна улица, то можно повторно пройти по одной из улиц (но не обратно)
 	if (!$flag) {
-		for ($i=0; $i < size($streets); $i++)
-			if (($streets["p1"] == $last_node[$i_min_len] || !$streets["one_way"] && $streets["p2"] == $last_node[$i_min_len])) {
+		for ($i=0; $i < sizeof($streets); $i++)
+			if (($streets[$i]["p1"] == $last_node[$i_min_len] || !$streets[$i]["one_way"] && $streets[$i]["p2"] == $last_node[$i_min_len])) {
 				// нашли - добавляем
-				$visited_streets_id[] = $streets["street_id"];
-				$last_node[] = $streets["street_id"];
-				$sum_len += $streets["len"];
+				$visited_streets_ids[] = $streets[$i]["street_id"];
+				$last_node[$i_min_len] = $streets[$i]["street_id"];
+				$sum_len[$i_min_len] += $streets[$i]["len"];
 				$min_len = min($sum_len);
-				$i_min_len = size($visited_streets_id[]) - 1;
-				echo "22222";
-				print_r($transport[$i]["transport_id"]);
-				print_r($streets["street_id"]);
 				$flag = 1;
 				break;
 			}
@@ -65,16 +61,25 @@ while ($min_len < 5) {
 
 	// 6. если и такую не нашли, то это тупик и идём обратно
 	if (!$flag) {
-/*		$last_node[] = $streets["street_id"];
-		$sum_len += $streets["len"];
+/*		$last_node[] = $streets[$i]["street_id"];
+		$sum_len += $streets[$i]["len"];
 		$min_len = min($sum_len);
 		$i_min_len = size($visited_streets_id[]) - 1;
 		$flag = 1;*/
 	}
+
+	// 7. обновляем индекс минимального по длине маршрута
+	for ($i=0; $i < sizeof($sum_len); $i++)
+		if ($min_len < $sum_len[$i]) {
+			$min_len = $sum_len[$i];
+			$i_min_len = $i;
+		}
+
+	$count++;
 }
 
 // 7. Сохраняем найденные маршруты
-print_r($visited_streets_id);
+//print_r($visited_streets_ids);
 
 // 6. Если есть более приоритетный участок улицы, то ближайшая техника должна ехать к нему
 
