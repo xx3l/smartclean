@@ -1,4 +1,4 @@
 Logs/log.log
 phpinfo.php
-
+Iterator/cache/**
 *.pdb

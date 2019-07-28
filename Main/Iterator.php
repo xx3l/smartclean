@@ -16,7 +16,8 @@ class Iterator24 extends SmartClean {
 
   public function search($numIterations = 5) {
     for ($i = 1; $i<= $numIterations; $i++) {
-      $this->cache[$i] = $this->makeStep($this->cache[$i - 1]);
+      // $this->cache[$i] = $this->makeStep($this->cache[$i - 1]);
+      $this->render->draw('./Iterator/cache/1.png');
     }
     // выполяет серию итераций заданной глубины
     return $this->cache;
