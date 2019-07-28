@@ -27,5 +27,13 @@ class MapRoutePointClass {
     return $this->db->delete('route_point', $id);
   }
 
+  function SelectAll($transport_id) {
+    return $this->db->select(
+      'route_point', [
+        'transport_id' => $transport_id,
+      ]
+    );
+  }
+
 }
 ?>
