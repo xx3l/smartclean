@@ -8,7 +8,7 @@ class MapRender {
     $this->db = new Db($config['db']);
   }
 
-  public function draw() {
+  public function draw($drawImage = 1) {
     $this->x_res = $this->config['render']['resolution'][0];
     $this->y_res = $this->config['render']['resolution'][1];
     $im = imagecreatetruecolor($this->x_res, $this->y_res);
@@ -53,9 +53,12 @@ class MapRender {
         imagefilledrectangle($im, $x-5, $y-5, $x+5, $y+5, $c_points);
       }
     }
-
-    header('Content-type: image/png');
-    imagepng($im);
-    die();
+    if ($drawImage == 1) {
+      header('Content-type: image/png');
+      imagepng($im);
+      die();
+    } else {
+      imagepng($im, $drawImage);
+    }
   }
 }

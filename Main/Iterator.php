@@ -10,11 +10,15 @@ class Iterator24 extends SmartClean {
   public function init() {
     // инициализация итератора, копирование конфигурации в память
     $this->cache[0]['fallout'] = $this->fallout->generate(1); // init seed
-    $this->cache[0]['streets'] = $this->streets->selectAll();
+    $this->cache[0]['streets'] = $this->street->selectAll();
     $this->cache[0]['transport'] = $this->transport->selectAllRefs();
   }
 
   public function search($numIterations = 5) {
+    for ($i = 1; $i<= $numIterations; $i++) {
+      $this->cache[$i] = $this->makeStep($this->cache[$i - 1]);
+    }
     // выполяет серию итераций заданной глубины
+    return $this->cache;
   }
 }
