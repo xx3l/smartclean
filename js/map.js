@@ -13,10 +13,10 @@ function GetMap() {
     map.addLayer(mapnik);
 //104.2707, 52.289
 	var lat;
-	if(!get['lat']) lat = 104.2707;
+	if(!get['lat']) lat = 104.2707; else lat=get['lat'];
 
 	var lon;
-	if(!get['lon']) lon = 52.289;
+	if(!get['lon']) lon = 52.289; else lon=get['lon'];
 
 	var map_id = get['map_id'];
 	if(!map_id) map_id = 1;
@@ -35,7 +35,7 @@ function GetMap() {
 		
     var size = new OpenLayers.Size(1400, 500);
     var offset = new OpenLayers.Pixel(0,0);
-	console.log(size);
+	
 	
 	var a = new Object;
 	a.x = 0;
@@ -53,7 +53,7 @@ function GetMap() {
 	position1 = position.transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
 	position2 = position2.transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
 	var path = 'image.php?x=1400&y=500&lon1='+position1.lon+'&lat1='+position1.lat+'&lon2='+position2.lon+'&lat2='+position2.lat+'&map_id='+map_id;
-	console.log(path);
+	
 	var Ways = new OpenLayers.Icon(path, size, offset);
 
     layerMarkers.addMarker(
