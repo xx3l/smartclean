@@ -36,7 +36,7 @@ SQL;
     return $this->db->rawSql($sql);
   }
 
-  function selectAll() {
+  function selectAllRefs() {
     $sql = "select * from transport t left join ref_transport r on r.ref_transport_id=t.ref_transport_id";
     return $this->db->rawSql($sql);
   }
