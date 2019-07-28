@@ -10,4 +10,8 @@ $config['db']['name'] = 'smartclean';
 $config['log']['path'] = 'Logs/log.log';
 
 $config['render']['resolution'] = [800, 600];
+$config['render']['box']['lat1'] = 0;
+$config['render']['box']['lat2'] = 0;
+$config['render']['box']['lon1'] = 0;
+$config['render']['box']['lon2'] = 0;
 ?>
