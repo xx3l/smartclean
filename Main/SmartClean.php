@@ -15,7 +15,7 @@ class SmartClean {
   protected $modelId = 0;
   public $point, $routePoint, $street, $transport, $fallout, $render;
 
-  public function __construct($param) {
+  public function __construct($param = []) {
     include 'config.php';
 
     $this->config = $config;

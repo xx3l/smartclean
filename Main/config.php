@@ -14,4 +14,6 @@ $config['render']['box']['lat1'] = 0;
 $config['render']['box']['lat2'] = 0;
 $config['render']['box']['lon1'] = 0;
 $config['render']['box']['lon2'] = 0;
+
+$config['fallout']['generator']['rate'] = 5;
 ?>
