@@ -20,7 +20,7 @@ class SmartClean {
 
     $this->config = $config;
 
-    $this->config['model']['id'] = $paran['model']['id'] ?? 1;
+    $this->config['model']['id'] = $param['model']['id'] ?? 1;
 
     $this->db_session = mysqli_connect($this->config['db']['host'], $this->config['db']['user'], $this->config['db']['password']);
     $this->db = new Db($this->config['db']);
