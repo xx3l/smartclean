@@ -12,4 +12,8 @@ class Helper {
     return $d;
   }
 
+  public function LenLatLon($lat,$lon,$direction,$len) {
+    
+  }
+
 }

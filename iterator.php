@@ -8,3 +8,4 @@ if ($model == 0) {
 print "Using model ".$model."\n";
 $iter = new Iterator24(['model' => ['id' => $model]]);
 $iter->init();
+$iter->search(5);
