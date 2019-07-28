@@ -1,6 +1,6 @@
 <?php
 require_once './Main/SmartClean.php';
-$smartClean = new SmartClean(['model' => ['id' => $_GET['map_id']]]);
+$smartClean = new SmartClean(['model' => ['id' => $_GET['map_id'] ?? 1]]);
 $smartClean->render->config['render']['resolution'] = [$_GET['x'] ?? 800, $_GET['y'] ?? 600];
 $smartClean->render->config['render']['box']['lat1'] = $_GET['lat1'] ?? 0;
 $smartClean->render->config['render']['box']['lat2'] = $_GET['lat2'] ?? 0;
