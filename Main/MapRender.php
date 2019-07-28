@@ -17,7 +17,8 @@ class MapRender {
     imagefill($im, 0, 0, $c_transparent);
 
     $c_points = imagecolorallocatealpha($im, 255, 128, 100, 5);
-    $c_lines = imagecolorallocatealpha($im, 128, 255, 100, 5);
+    $c_lines = imagecolorallocatealpha($im, 1, 100, 250, 5);
+    imagesetthickness($im, 5);
 
 
     imagefilledrectangle($im, 0, 0, $this->x_res, $this->y_res, $c_transparent);
@@ -35,10 +36,6 @@ class MapRender {
     $pnt = [];
     foreach ($points as $point) {
       $pnt[$point['point_id']] = [$point['lat'], $point['lon']];
-      $x = $x_scale * ($point['lon'] - $minLon);
-      $y = $this->y_res - $y_scale * ($point['lat'] - $minLat);
-      // print floor($x)."-".floor($y)."=";
-      imagefilledrectangle($im, $x-5, $y-5, $x+5, $y+5, $c_points);
     }
     $streets = $this->db->rawSql('select p1, p2 from street');
     foreach ($streets as $street) {
@@ -47,6 +44,12 @@ class MapRender {
       $x2 = $x_scale * ($pnt[$street['p2']][1] - $minLon);
       $y2 = $this->y_res - $y_scale * ($pnt[$street['p2']][0] - $minLat);
       imageline($im, $x1, $y1, $x2, $y2, $c_lines);
+    }
+    foreach ($points as $point) {
+      $x = $x_scale * ($point['lon'] - $minLon);
+      $y = $this->y_res - $y_scale * ($point['lat'] - $minLat);
+      // print floor($x)."-".floor($y)."=";
+      imagefilledrectangle($im, $x-5, $y-5, $x+5, $y+5, $c_points);
     }
 
     header('Content-type: image/png');
