@@ -1,19 +1,9 @@
-<?php
-require_once './Main/SmartClean.php';
-$smartClean = new SmartClean(['model' => ['id' => 1]]);
-
-// примеры исползоватния методов
-//
-// -- points
-// $pointID = $smartClean->point->add(OSMid, lat, lon, [height]);
-// $smartClean->point->delete($pointID);
-//
-// -- streets
-// $smartClean->street->add(p1, p2, [path_id = 0], [one_way = 0], [width], [len], [priority], [active]);
-
-// $smartClean->point->add(87687, 123, 32);
-// $smartClean->point->add(333, 5, 6);
-// $smartClean->point->delete(333);
-// $r = $smartClean->point->get(285814785);
-$smartClean->render->draw();
-?>
+<html>
+<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+<script src="js/map.js"> </script>
+ <body onload="GetMap();">
+    <h2 align="center">Smart Clean</h2>
+    <div id="OSMap" style="position:absolute; width:1400px; height:500px;"></div>
+ </body>
+ 
+</html>
